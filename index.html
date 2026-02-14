@@ -75,11 +75,32 @@
 
     form.addEventListener("submit", e => {
       e.preventDefault();
+	  const duration = calculateTimeDifference(
+		  form.startTime.value,
+		  form.endTime.value
+		);
+		//console.log(duration);
       const formData = {
         date: form.date.value,
         startTime: form.startTime.value,
-        endTime: form.endTime.value
+        endTime: form.endTime.value,
+		duration: duration
       };
+	  
+	  console.log(formData);
+	  
+	  function calculateTimeDifference(start, end) {
+		  const startMinutes = start.split(":").reduce((h, m) => h * 60 + +m);
+		  const endMinutes = end.split(":").reduce((h, m) => h * 60 + +m);
+
+		  let diffMinutes = endMinutes - startMinutes;
+		  if (diffMinutes < 0) diffMinutes += 24 * 60;
+
+		  const hours = Math.floor(diffMinutes / 60);
+		  const minutes = diffMinutes % 60;
+
+		  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00`;
+	  }
 
       fetch(scriptURL, {
         method: "POST",
