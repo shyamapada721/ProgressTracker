@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Time Entry Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Time Entry Form</h2>
+    <form id="timeForm">
+      <label>Date:</label>
+      <input type="date" name="date" required>
+
+      <label>Start Time:</label>
+      <input type="time" name="startTime" required>
+
+      <label>End Time:</label>
+      <input type="time" name="endTime" required>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxzFlKJHVroJ2QnIb0hTxkEX9t-2pqTBWZhFhXUx4gEi3Zn_S_vE27v_PrhseOpi21_/exec"; // Replace with your Apps Script URL
+    const form = document.getElementById("timeForm");
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const formData = {
+        date: form.date.value,
+        startTime: form.startTime.value,
+        endTime: form.endTime.value
+      };
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(formData)
+      })
+      .then(response => alert("Data submitted successfully!"))
+      .catch(error => alert("Error: " + error.message));
+	  form.startTime.value = '';
+	  form.endTime.value = '';
+    });
+  </script>
+</body>
+</html>
